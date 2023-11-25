@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	"slices"
 )
@@ -32,7 +34,7 @@ func postUser(c *gin.Context) {
 		users = append(users, newUser)
 		c.IndentedJSON(http.StatusCreated, newUser)
 	}
-}csd
+}
 
 func getUsers(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, users)
@@ -42,5 +44,6 @@ func main() {
 	router := gin.Default()
 	router.GET("/users", getUsers)
 	router.POST("/login", postUser)
-	router.Run("192.168.43.2:8080")
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Run("localhost:8006")
 }
